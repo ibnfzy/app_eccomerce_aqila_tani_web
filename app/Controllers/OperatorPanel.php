@@ -17,7 +17,7 @@ class OperatorPanel extends BaseController
     public function operator()
     {
         return view('operator/operator', [
-            'data' => $this->db->table('operator')->orderBy('id_operator', 'DESC')->get()->getResult(),
+            'data' => $this->db->table('operator')->orderBy('id_operator', 'DESC')->get()->getResultArray(),
         ]);
     }
 
