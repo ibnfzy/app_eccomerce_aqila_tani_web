@@ -9,6 +9,12 @@ $routes->get('/', 'Home::index');
 $routes->get('Katalog', 'Home::katalog');
 $routes->get('Tentang', 'Home::tentang');
 
+$routes->get('Cart', 'Home::cart');
+$routes->get('Cart/Delete/(:segment)', 'Home::remove_barang/$1');
+$routes->get('Cart/Clear', 'Home::clear_cart');
+$routes->post('Cart/Update', 'Home::update_cart');
+$routes->post('Cart/Add', 'Home::add_barang');
+
 $routes->group('OperatorPanel', function (RouteCollection $routes) {
   $routes->get('/', function () {
     return redirect()->to(base_url('OperatorPanel/Operator'));
