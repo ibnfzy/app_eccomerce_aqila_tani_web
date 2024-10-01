@@ -2,21 +2,9 @@
 
 <?= $this->section('content'); ?>
 
-<div class="m-4">
-  <div class="owl-carousel owl-theme container-fluid">
-    <div class="item">
-      <img src="/web_assets/img/carousel-1.jpg" alt="" srcset="">
-    </div>
-    <div class="item">
-      <img src="/web_assets/img/carousel-2.jpg" alt="" srcset="">
-    </div>
-  </div>
-</div>
-
-<!-- Products Start -->
 <div class="container-fluid pt-5">
   <div class="text-center mb-4">
-    <h2 class="section-title px-5"><span class="px-2">Top 4 Barang Terlaris</span></h2>
+    <h2 class="section-title px-5"><span class="px-2">Katalog Barang</span></h2>
   </div>
   <div class="row px-xl-5 pb-3">
 

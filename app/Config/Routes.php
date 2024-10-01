@@ -6,6 +6,7 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 $routes->get('/', 'Home::index');
+$routes->get('Katalog', 'Home::katalog');
 
 $routes->group('OperatorPanel', function (RouteCollection $routes) {
   $routes->get('/', function () {

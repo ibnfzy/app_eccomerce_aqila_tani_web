@@ -40,6 +40,25 @@
   <link href="/web_assets/css/style.css" rel="stylesheet">
 
   <style>
+  .preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  }
+
+  .preloader.slide-up {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
   .owl-carousel .owl-stage {
     display: flex !important;
     align-items: center !important;
@@ -85,6 +104,12 @@
 </head>
 
 <body>
+  <div class="preloader" id="preloader">
+    <div class="spinner-border text-success" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
   <?= $this->include('web/layouts/header'); ?>
 
   <?= $this->renderSection('content'); ?>
@@ -115,13 +140,6 @@
   <script src='https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js'
     integrity='sha512-lbwH47l/tPXJYG9AcFNoJaTMhGvYWhVM9YI43CT+uteTRRaiLCui8snIgyAN8XWgNjNhCqlAUdzZptso6OCoFQ=='
     crossorigin='anonymous'></script>
-
-  <!-- Contact Javascript File -->
-  <!-- <script src="/web_assets/mail/jqBootstrapValidation.min.js"></script>
-  <script src="/web_assets/mail/contact.js"></script> -->
-
-  <!-- Template Javascript -->
-  <!-- <script src="/web_assets/js/main.js"></script> -->
 
   <?= $this->renderSection('script'); ?>
 
@@ -162,6 +180,15 @@
     "showMethod": "fadeIn",
     "hideMethod": "fadeOut"
   }
+
+  window.addEventListener('load', function() {
+    const preloader = document.getElementById('preloader');
+
+    setTimeout(function() {
+      preloader.classList.add('slide-up');
+      // preloader.style.display = 'none';
+    }, 1000)
+  });
   </script>
 
   <?php

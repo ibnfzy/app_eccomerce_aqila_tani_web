@@ -8,4 +8,9 @@ class Home extends BaseController
     {
         return view('web/home');
     }
+
+    public function katalog()
+    {
+        return view('web/katalog');
+    }
 }

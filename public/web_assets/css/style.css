@@ -102,10 +102,6 @@
   transform: scale(1.2);
 }
 
-.product-item .btn:hover {
-  color: var(--bs-success) !important;
-}
-
 .contact-form .help-block ul {
   margin: 0;
   padding: 0;
