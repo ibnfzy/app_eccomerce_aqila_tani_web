@@ -7,6 +7,7 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 $routes->get('Katalog', 'Home::katalog');
+$routes->get('Tentang', 'Home::tentang');
 
 $routes->group('OperatorPanel', function (RouteCollection $routes) {
   $routes->get('/', function () {

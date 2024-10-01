@@ -13,4 +13,9 @@ class Home extends BaseController
     {
         return view('web/katalog');
     }
+
+    public function tentang()
+    {
+        return view('web/tentang');
+    }
 }
