@@ -16,6 +16,14 @@ $routes->get('Cart/Clear', 'Home::clear_cart');
 $routes->post('Cart/Update', 'Home::update_cart');
 $routes->post('Cart/Add', 'Home::add_barang');
 
+$routes->group('Auth', function (RouteCollection $routes) {
+  $routes->get('User/Login', 'UserAuth::index');
+  $routes->post('User/Login', 'UserAuth::auth');
+  $routes->get('User/Logout', 'UserAuth::logout');
+  $routes->get('User/Daftar', 'UserAuth::daftar');
+  $routes->post('User/Daftar', 'UserAuth::daftar_akun');
+});
+
 $routes->group('OperatorPanel', function (RouteCollection $routes) {
   $routes->get('/', function () {
     return redirect()->to(base_url('OperatorPanel/Operator'));
