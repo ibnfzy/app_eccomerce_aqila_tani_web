@@ -24,6 +24,9 @@ class Users extends Migration
             'nama' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255
+            ],
+            'alamat_pengiriman' => [
+                'type' => 'TEXT'
             ]
         ]);
 
