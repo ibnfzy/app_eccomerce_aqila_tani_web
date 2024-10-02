@@ -31,23 +31,23 @@
             </thead>
             <tbody>
               <?php foreach ($data as $key => $item) : ?>
-                <tr>
-                  <td><?= $key + 1; ?></td>
-                  <td><button class="btn btn-success" onclick="image('<?= $item['id_barang'] ?>')"><i
-                        class="fa-solid fa-image"></i></button></td>
-                  <td><?= $item['nama_barang']; ?></td>
-                  <td>Rp <?= number_format($item['harga'], 0, ',', '.'); ?></td>
-                  <td><?= $item['stok']; ?></td>
-                  <td>
-                    <div class="btn-group">
-                      <button class="btn btn-success"
-                        onclick="edit('<?= $item['id_barang'] ?>', '<?= $item['nama_barang'] ?>', '<?= $item['harga'] ?>', '<?= $item['stok'] ?>')"><i
-                          class="fa-solid fa-pen-to-square"></i></button>
-                      <a href="/OperatorPanel/Barang/<?= $item['id_barang'] ?>" class="btn btn-danger"><i
-                          class="fa-solid fa-trash"></i></a>
-                    </div>
-                  </td>
-                </tr>
+              <tr>
+                <td><?= $key + 1; ?></td>
+                <td><button class="btn btn-success" onclick="image('<?= $item['id_barang'] ?>')"><i
+                      class="fa-solid fa-image"></i></button></td>
+                <td><?= $item['nama_barang']; ?></td>
+                <td>Rp <?= number_format($item['harga'], 0, ',', '.'); ?></td>
+                <td><?= $item['stok']; ?></td>
+                <td>
+                  <div class="btn-group">
+                    <button class="btn btn-success"
+                      onclick="edit('<?= $item['id_barang'] ?>', '<?= $item['nama_barang'] ?>', '<?= $item['harga'] ?>', '<?= $item['stok'] ?>', '<?= $item['deskripsi'] ?>')"><i
+                        class="fa-solid fa-pen-to-square"></i></button>
+                    <a href="/OperatorPanel/Barang/<?= $item['id_barang'] ?>" class="btn btn-danger"><i
+                        class="fa-solid fa-trash"></i></a>
+                  </div>
+                </td>
+              </tr>
               <?php endforeach ?>
             </tbody>
           </table>
@@ -84,7 +84,7 @@
           </div>
           <div class="mb-4">
             <label for="images" class="form-label">Gambar</label>
-            <input type="file" class="form-control" id="images" name="images" required>
+            <input type="file" class="form-control" id="images" name="images[]" accept="image/*" multiple required>
             <small class="form-text"></small>
           </div>
           <div class="mb-4">
@@ -163,19 +163,20 @@
   </div>
 </div>
 
-<div class="modal fade" id="tambahGambar" tabindex="-1" aria-labelledby="editlLabel" aria-hidden="true">
+<div class="modal fade" id="tambahGambarModal" tabindex="-1" aria-labelledby="tambahGambarlLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="editlLabel">Edit Data</h1>
+        <h1 class="modal-title fs-5" id="tambahGambarlLabel">Edit Data</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="/OperatorPanel/Barang/Gambar" method="post" enctype="multipart/form-data" id="formGambar">
+      <form action="/OperatorPanel/Barang/TambahImage" method="post" enctype="multipart/form-data" id="formGambar">
         <input type="hidden" name="id_barang" id="id_barang-gambar" required>
         <div class="modal-body">
           <div class="mb-4">
             <label for="images-gambar" class="form-label">Gambar</label>
-            <input type="file" class="form-control" id="images-gambar" name="images" required>
+            <input type="file" class="form-control" id="images-gambar" name="images[]" accept="image/*" multiple
+              required>
             <small class="form-text"></small>
           </div>
         </div>
@@ -193,131 +194,135 @@
 <?= $this->section('script'); ?>
 
 <script>
-  const edit = (id, nama_barang, harga, stok) => {
-    $('#id_barang-edit').val(id);
-    $('#nama_barang-edit').val(nama_barang);
-    $('#harga-edit').val(harga);
-    $('#stok-edit').val(stok);
-    $('#edit').modal('show');
-  };
+const edit = (id, nama_barang, harga, stok, deskripsi) => {
+  $('#id_barang-edit').val(id);
+  $('#nama_barang-edit').val(nama_barang);
+  $('#harga-edit').val(harga);
+  $('#stok-edit').val(stok);
+  $('#deskripsi-edit').val(deskripsi);
+  $('#edit').modal('show');
+};
 
-  const image = (id_barang) => {
-    $.ajax({
-      type: "POST",
-      url: "/OperatorPanel/Barang/GetImage",
-      data: {
-        id_barang: id_barang
-      },
-      dataType: "JSON",
-      success: function(response) {
-        const data = response.data;
-        let html = '';
+const image = (id_barang) => {
+  $.ajax({
+    type: "POST",
+    url: "/OperatorPanel/Barang/GetImage",
+    data: {
+      id_barang: id_barang
+    },
+    dataType: "JSON",
+    success: function(response) {
+      const data = response.data;
+      let html = '';
 
-        if (data.length > 0) {
-          for (let item in data) {
-            const fileUrl = '/uploads/' + data[item];
+      if (data !== null) {
+        for (let item in data) {
+          const fileUrl = '/uploads/' + data[item];
 
-            html += `
+          html += `
             <div class="col-md-4 mb-4">
               <div class="position-relative">
-                <img src="${fileUrl}" class="img-fluid img-thumbnail" alt="Image">
-                <button type="button" class="btn-close position-absolute top-0 end-0 m-2" onclick="deleteImage('${data[item]}', '${id_barang}')"></button>
+                <a href="${fileUrl}" data-fancybox="gallery">
+                  <img src="${fileUrl}" class="img-fluid img-thumbnail" alt="Image" style="min-width: 140px;">
+                </a>
+                <button type="button" class="btn-close position-absolute top-0 end-0 m-2 text-bg-light" title="Delete" onclick="deleteImage('${data[item]}', '${id_barang}')"></button>
               </div>
             </div>
             `;
-          }
-        } else {
-          html += `
+        }
+      } else {
+        html += `
           <div class="col-md-12 mb-4">
             <div class="position-relative">
               <p class="text-center">Tidak ada gambar</p>
             </div>
           </div>
           `;
-        }
-
-        $('#imagesGrid').html(html);
-        $('#tambahGambar').attr('onclick', `tambahGambar('${id_barang}')`);
-        $('#gambar').modal('show');
       }
-    });
-  };
 
-  const deleteImage = (fileName, id_barang) => {
-    $.ajax({
-      type: "POST",
-      url: "/OperatorPanel/Barang/DeleteImage",
-      data: {
-        fileName: fileName,
-        id_barang: id_barang
-      },
-      dataType: "JSON",
-      success: function(response) {
-        if (response.success) {
-          Command: toastr.success(response.message);
-          image(response.id_barang);
-        }
-        else {
-          Command: toastr.error(response.message);
-        }
-      }
-    });
-  }
-
-  const tambahGambar = (id_barang) => {
-    $('#id_barang-gambar').val(id_barang);
-    $('#tambahGambar').modal('show');
-  };
-
-  $('#formEdit').on('submit', function(e) {
-    e.preventDefault();
-    let stilErr = false;
-
-    $('#formEdit input[data-maxlength]').each(function() {
-      const maxLength = $(this).data('maxlength');
-      const valLength = $(this).val().length;
-      const label = $(this).closest('.mb-4').find('label').text();
-
-      if (valLength > maxLength) {
-        const error = `Maksimal ${maxLength} karakter di ${label}`;
-        Command: toastr.error(error);
-        stilErr = true;
-      }
-    });
-
-    if (!stilErr) {
-      $('#formEdit').unbind('submit').submit();
+      $('#imagesGrid').html(html);
+      $('#tambahGambar').attr('onclick', `tambahGambar('${id_barang}')`);
+      $('#gambar').modal('show');
     }
   });
+};
 
-  $('#form').on('submit', function(e) {
-    e.preventDefault();
-    let stilErr = false;
-
-    $('#form input[data-maxlength]').each(function() {
-      const maxLength = $(this).data('maxlength');
-      const valLength = $(this).val().length;
-      const label = $(this).closest('.mb-4').find('label').text();
-
-      if (valLength > maxLength) {
-        const error = `Maksimal ${maxLength} karakter di ${label}`;
-        Command: toastr.error(error);
-        stilErr = true;
+const deleteImage = (fileName, id_barang) => {
+  $.ajax({
+    type: "POST",
+    url: "/OperatorPanel/Barang/DeleteImage",
+    data: {
+      fileName: fileName,
+      id_barang: id_barang
+    },
+    dataType: "JSON",
+    success: function(response) {
+      if (response.success) {
+        Command: toastr.success(response.message);
+        image(response.id_barang);
       }
-    });
+      else {
+        Command: toastr.error(response.message);
+      }
+    }
+  });
+}
 
-    const password = $('#password').val();
-    const konfirmasi_password = $('#konfirmasi_password').val();
+const tambahGambar = (id_barang) => {
+  $('#id_barang-gambar').val(id_barang);
+  $('#gambar').modal('toggle');
+  $('#tambahGambarModal').modal('show');
+};
 
-    if (password !== konfirmasi_password) {
-      Command: toastr.error('Password tidak sama');
+$('#formEdit').on('submit', function(e) {
+  e.preventDefault();
+  let stilErr = false;
+
+  $('#formEdit input[data-maxlength]').each(function() {
+    const maxLength = $(this).data('maxlength');
+    const valLength = $(this).val().length;
+    const label = $(this).closest('.mb-4').find('label').text();
+
+    if (valLength > maxLength) {
+      const error = `Maksimal ${maxLength} karakter di ${label}`;
+      Command: toastr.error(error);
       stilErr = true;
     }
+  });
 
-    if (!stilErr) {
-      $('#form').unbind('submit').submit();
+  if (!stilErr) {
+    $('#formEdit').unbind('submit').submit();
+  }
+});
+
+$('#form').on('submit', function(e) {
+  e.preventDefault();
+  let stilErr = false;
+
+  $('#form input[data-maxlength]').each(function() {
+    const maxLength = $(this).data('maxlength');
+    const valLength = $(this).val().length;
+    const label = $(this).closest('.mb-4').find('label').text();
+
+    if (valLength > maxLength) {
+      const error = `Maksimal ${maxLength} karakter di ${label}`;
+      Command: toastr.error(error);
+      stilErr = true;
     }
   });
+
+  const password = $('#password').val();
+  const konfirmasi_password = $('#konfirmasi_password').val();
+
+  if (password !== konfirmasi_password) {
+    Command: toastr.error('Password tidak sama');
+    stilErr = true;
+  }
+
+  if (!stilErr) {
+    $('#form').unbind('submit').submit();
+  }
+});
 </script>
 
 <?= $this->endSection(); ?>

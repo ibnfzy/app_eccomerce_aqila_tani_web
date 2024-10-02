@@ -122,12 +122,12 @@ class OperatorPanel extends BaseController
             return redirect()->to(route_to('OperatorPanel::barang'))->with('type-status', 'error')->with('message', $this->validator->getErrors());
         }
 
-        $image = $this->request->getFiles('images');
+        $image = $this->request->getFiles('images')['images'];
         $arrImages = [];
-        foreach ($image as $item) {
-            if ($item->isValid() && ! $item->hasMoved()) {
-                $newName = $item->getRandomName();
-                $item->move('uploads', $newName);
+        foreach ($image as $key => $item) {
+            if ($image[$key]->isValid() && ! $image[$key]->hasMoved()) {
+                $newName = $image[$key]->getRandomName();
+                $image[$key]->move('uploads', $newName);
                 $arrImages[] = $newName;
             }
         }
@@ -160,7 +160,9 @@ class OperatorPanel extends BaseController
         $id = $this->request->getVar('id_barang');
         $data = unserialize($this->db->table('barang')->where('id_barang', $id)->get()->getRow()->images);
 
-        return $this->response->setJSON($data);
+        return $this->response->setJSON([
+            'data' => $data
+        ]);
     }
 
     public function barang_delete_images()
@@ -203,11 +205,11 @@ class OperatorPanel extends BaseController
         $getData = $this->db->table('barang')->where('id_barang', $this->request->getPost('id_barang'))->get()->getRow();
         $data = unserialize($getData->images);
 
-        $image = $this->request->getFiles('images');
-        foreach ($image as $item) {
-            if ($item->isValid() && ! $item->hasMoved()) {
-                $newName = $item->getRandomName();
-                $item->move('uploads', $newName);
+        $image = $this->request->getFiles('images')['images'];
+        foreach ($image as $key => $item) {
+            if ($image[$key]->isValid() && ! $image[$key]->hasMoved()) {
+                $newName = $image[$key]->getRandomName();
+                $image[$key]->move('uploads', $newName);
                 $data[] = $newName;
             }
         }

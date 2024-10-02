@@ -30,7 +30,7 @@ $routes->group('OperatorPanel', function (RouteCollection $routes) {
   $routes->get('Barang/(:num)', 'OperatorPanel::barang_hapus/$1');
   $routes->post('Barang', 'OperatorPanel::barang_simpan');
   $routes->post('Barang/Update', 'OperatorPanel::barang_update');
-  $routes->post('/Barang/GetImage', 'OperatorPanel::barang_get_image');
-  $routes->post('/Barang/DeleteImage', 'OperatorPanel::barang_delete_image');
-  $routes->post('/Barang/TambahImage', 'OperatorPanel::barang_tambah_image');
+  $routes->post('Barang/GetImage', 'OperatorPanel::barang_get_images');
+  $routes->post('Barang/DeleteImage', 'OperatorPanel::barang_delete_images');
+  $routes->post('Barang/TambahImage', 'OperatorPanel::barang_tambah_images');
 });

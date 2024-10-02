@@ -16,6 +16,9 @@
         <li class="nav-item"> <a href="/OperatorPanel/" class="nav-link"> <i class="nav-icon bi bi-person-circle"></i>
             <p>Operator</p>
           </a> </li>
+        <li class="nav-item"> <a href="/OperatorPanel/Barang" class="nav-link"> <i class="nav-icon bi bi-box"></i>
+            <p>Barang</p>
+          </a> </li>
 
         <!-- <li class="nav-item"> <a href="#!" class="nav-link"> <i class="nav-icon bi bi-envelope"></i>
             <p>
