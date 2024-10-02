@@ -22,6 +22,10 @@ $routes->group('Auth', function (RouteCollection $routes) {
   $routes->get('User/Logout', 'UserAuth::logout');
   $routes->get('User/Daftar', 'UserAuth::daftar');
   $routes->post('User/Daftar', 'UserAuth::daftar_akun');
+
+  $routes->get('Operator/Login', 'OperatorAuth::index');
+  $routes->post('Operator/Login', 'OperatorAuth::auth');
+  $routes->get('Operator/Logout', 'OperatorAuth::logout');
 });
 
 $routes->group('OperatorPanel', function (RouteCollection $routes) {
