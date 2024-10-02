@@ -7,6 +7,7 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 $routes->get('Katalog', 'Home::katalog');
+$routes->get('Katalog/(:num)', 'Home::detail/$1');
 $routes->get('Tentang', 'Home::tentang');
 
 $routes->get('Cart', 'Home::cart');

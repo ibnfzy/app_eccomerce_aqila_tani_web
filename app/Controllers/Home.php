@@ -20,7 +20,17 @@ class Home extends BaseController
 
     public function katalog()
     {
-        return view('web/katalog');
+        return view('web/katalog', [
+            'data' => $this->db->table('barang')->orderBy('id_barang', 'DESC')->get()->getResultArray()
+        ]);
+    }
+
+    public function detail($id)
+    {
+        return view('web/detail', [
+            'data' => $this->db->table('barang')->where('id_barang', $id)->get()->getRowArray(),
+            'review' => $this->db->table('barang_detail_review')->join('users', 'users.id_user = barang_detail_review.id_user')->where('barang_detail_review.id_barang', $id)->get()->getResultArray()
+        ]);
     }
 
     public function tentang()
@@ -30,7 +40,9 @@ class Home extends BaseController
 
     public function cart()
     {
-        return view('web/cart');
+        return view('web/cart', [
+            'data' => $this->cart->contents()
+        ]);
     }
 
     public function add_barang()

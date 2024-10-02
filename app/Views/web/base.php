@@ -9,7 +9,7 @@
   <meta content="Free HTML Templates" name="description">
 
   <!-- Favicon -->
-  <link href="favicon.ico" rel="icon">
+  <link href="/favicon.ico" rel="icon">
 
   <!-- Google Web Fonts -->
   <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -24,9 +24,15 @@
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css'
     integrity='sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=='
     crossorigin='anonymous' />
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js'
+    integrity='sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=='
+    crossorigin='anonymous'></script>
 
   <!-- Libraries Stylesheet -->
   <!-- Customized Bootstrap Stylesheet -->
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css'
+    integrity='sha512-H9jrZiiopUdsLpg94A333EfumgUBpO9MdbxStdeITo+KEIMaNfHNvwyjjDJb+ERPaRS6DpyRlKbvPUasNItRyw=='
+    crossorigin='anonymous' />
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css'
     integrity='sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=='
     crossorigin='anonymous' />
@@ -122,14 +128,15 @@
 
 
   <!-- JavaScript Libraries -->
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js'
-    integrity='sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=='
-    crossorigin='anonymous'></script>
+
   <script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js'
     integrity='sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg=='
     crossorigin='anonymous'></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/js/all.min.js'
     integrity='sha512-6sSYJqDreZRZGkJ3b+YfdhB3MzmuP9R7X1QZ6g5aIXhRvR1Y/N/P47jmnkENm7YL3oqsmI6AK+V6AD99uWDnIw=='
+    crossorigin='anonymous'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js'
+    integrity='sha512-uURl+ZXMBrF4AwGaWmEetzrd+J5/8NRkWAvJx5sbPSSuOb0bZLqf+tOzniObO00BjHa/dD7gub9oCGMLPQHtQA=='
     crossorigin='anonymous'></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js'
     integrity='sha512-0QbL0ph8Tc8g5bLhfVzSqxe9GERORsKhIn1IrpxDAgUsbBGz/V7iSav2zzW325XGd1OMLdL4UiqRJj702IeqnQ=='
@@ -144,6 +151,28 @@
   <?= $this->renderSection('script'); ?>
 
   <script>
+    $(document).ready(function() {
+      $('.btn-plus').click(function() {
+        var input = $(this).closest('.quantity').find('.quantity-input');
+        var currentVal = parseInt(input.val());
+        var maxVal = parseInt(input.attr('data-stok'));
+
+        if (!isNaN(currentVal) && currentVal < maxVal) {
+          input.val(currentVal + 1);
+        }
+      });
+
+
+      $('.btn-minus').click(function() {
+        var input = $(this).closest('.quantity').find('.quantity-input');
+        var currentVal = parseInt(input.val());
+
+        if (!isNaN(currentVal) && currentVal > 0) {
+          input.val(currentVal - 1);
+        }
+      });
+    });
+
     $('.owl-carousel').owlCarousel({
       loop: true,
       margin: 2,
