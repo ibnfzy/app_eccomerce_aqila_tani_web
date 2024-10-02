@@ -9,5 +9,6 @@ class Seed extends Seeder
     public function run()
     {
         $this->call(Operator::class);
+        $this->call(Barang::class);
     }
 }
