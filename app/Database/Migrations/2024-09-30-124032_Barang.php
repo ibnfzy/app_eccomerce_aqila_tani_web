@@ -28,6 +28,10 @@ class Barang extends Migration
             ],
             'images' => [
                 'type' => 'TEXT',
+            ],
+            'jenis' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255
             ]
         ]);
 
