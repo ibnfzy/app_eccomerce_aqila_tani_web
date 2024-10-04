@@ -36,7 +36,7 @@ class OperatorAuth extends BaseController
 
         session()->set('data_operator', $data);
         session()->set('operator_logged_in', true);
-        return redirect()->to(route_to('OperatorPanel::index'));
+        return redirect()->to(route_to('OperatorPanel::operator'));
     }
 
     public function logout()

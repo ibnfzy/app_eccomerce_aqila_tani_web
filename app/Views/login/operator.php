@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daftar</title>
+  <title>Login</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css'
     integrity='sha512-6S2HWzVFxruDlZxI3sXOZZ4/eJ8AcxkQH1+JjSe/ONCEqR9L4Ysq5JdT5ipqtzU7WHalNwzwBv+iE51gNHJNqQ=='
@@ -66,38 +66,23 @@
 <body>
 
   <div class="login-container">
-    <h3 class="text-center mb-4">Daftar</h3>
+    <h3 class="text-center mb-4">Login</h3>
 
-    <form id="form" method="post" enctype="application/x-www-form-urlencoded" action="/Auth/User/Daftar">
+    <form id="form" method="post" action="/Auth/Operator/Login">
       <div class="form-group mb-3">
-        <label for="nama" class="form-label">Nama Lengkap</label>
-        <input type="text" class="form-control" id="nama" name="nama">
-      </div>
-
-      <div class="form-group mb-3">
-        <label for="username" class="form-label">username</label>
+        <label for="username" class="form-label">Username</label>
         <input type="text" class="form-control" id="username" name="username">
       </div>
 
       <div class="form-group mb-4">
         <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" placeholder="Password">
+        <input type="password" class="form-control" id="password" placeholder="Password" name="password">
       </div>
 
-      <div class="form-group mb-4">
-        <label for="password" class="form-label">Konfirmasi Password</label>
-        <input type="password" class="form-control" id="konfirmasi_password" placeholder="Password">
-      </div>
-
-      <div class="form-group mb-4">
-        <label for="alamat_pengiriman">Alamat Pengiriman</label>
-        <textarea name="alamat_pengiriman" id="alamat_pengiriman" class="form-control"></textarea>
-      </div>
-
-      <button type="submit" class="btn btn-outline-success col-12">Daftar</button>
+      <button type="submit" class="btn btn-outline-success col-12">Login</button>
     </form>
 
-    <p class="text-center mt-3">Sudah punya akun? <a href="/Auth/User/Login">Login</a> | Kembali <a href="/">kehalaman
+    <p class="text-center mt-3">Kembali <a href="/">kehalaman
         depan</a></p>
   </div>
 
@@ -110,23 +95,6 @@
     crossorigin='anonymous'></script>
 
   <script>
-  $('#form').on('submit', function(e) {
-    e.preventDefault();
-    let stilErr = false;
-
-    const password = $('#password').val();
-    const konfirmasi_password = $('#konfirmasi_password').val();
-
-    if (password !== konfirmasi_password) {
-      Command: toastr.error('Password tidak sama');
-      stilErr = true;
-    }
-
-    if (!stilErr) {
-      $('#form').unbind('submit').submit();
-    }
-  });
-
   toastr.options = {
     "closeButton": true,
     "debug": false,

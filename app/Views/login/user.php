@@ -10,56 +10,56 @@
     integrity='sha512-6S2HWzVFxruDlZxI3sXOZZ4/eJ8AcxkQH1+JjSe/ONCEqR9L4Ysq5JdT5ipqtzU7WHalNwzwBv+iE51gNHJNqQ=='
     crossorigin='anonymous' />
   <style>
-    /* Background gradient animated (blue and white) */
-    body {
-      height: 100vh;
-      background: linear-gradient(45deg, #b3cde0, #ffffff, #6497b1, #ffffff, #005b96);
-      background-size: 400% 400%;
-      animation: gradientAnimation 15s ease infinite;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+  /* Background gradient animated (blue and white) */
+  body {
+    height: 100vh;
+    background: linear-gradient(45deg, #b3cde0, #ffffff, #6497b1, #ffffff, #005b96);
+    background-size: 400% 400%;
+    animation: gradientAnimation 15s ease infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  @keyframes gradientAnimation {
+    0% {
+      background-position: 0% 50%;
     }
 
-    @keyframes gradientAnimation {
-      0% {
-        background-position: 0% 50%;
-      }
-
-      50% {
-        background-position: 100% 50%;
-      }
-
-      100% {
-        background-position: 0% 50%;
-      }
+    50% {
+      background-position: 100% 50%;
     }
 
-    /* Container form styling */
-    .login-container {
-      background-color: #ffffff;
-      padding: 40px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-      max-width: 400px;
-      width: 100%;
+    100% {
+      background-position: 0% 50%;
     }
+  }
 
-    /* Form fields styling */
-    .form-control {
-      border-radius: 5px;
-    }
+  /* Container form styling */
+  .login-container {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+  }
 
-    /* Submit button */
-    .btn-primary {
-      width: 100%;
-      border-radius: 5px;
-    }
+  /* Form fields styling */
+  .form-control {
+    border-radius: 5px;
+  }
 
-    /* Centering form */
-    .form-group {
-      margin-bottom: 20px;
-    }
+  /* Submit button */
+  .btn-primary {
+    width: 100%;
+    border-radius: 5px;
+  }
+
+  /* Centering form */
+  .form-group {
+    margin-bottom: 20px;
+  }
   </style>
 </head>
 
@@ -76,11 +76,14 @@
 
       <div class="form-group mb-4">
         <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" placeholder="Password">
+        <input type="password" class="form-control" id="password" placeholder="Password" name="password">
       </div>
 
-      <button type="submit" class="btn btn-primary">Login</button>
+      <button type="submit" class="btn btn-outline-success col-12">Login</button>
     </form>
+
+    <p class="text-center mt-3">Belum punya akun? <a href="/Auth/User/Daftar">Daftar</a> | Kembali <a href="/">kehalaman
+        depan</a></p>
   </div>
 
   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js'
@@ -92,23 +95,23 @@
     crossorigin='anonymous'></script>
 
   <script>
-    toastr.options = {
-      "closeButton": true,
-      "debug": false,
-      "newestOnTop": true,
-      "progressBar": true,
-      "positionClass": "toast-top-right",
-      "preventDuplicates": true,
-      "onclick": null,
-      "showDuration": "300",
-      "hideDuration": "1000",
-      "timeOut": "5000",
-      "extendedTimeOut": "1000",
-      "showEasing": "swing",
-      "hideEasing": "linear",
-      "showMethod": "fadeIn",
-      "hideMethod": "fadeOut"
-    }
+  toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "newestOnTop": true,
+    "progressBar": true,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": true,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+  }
   </script>
 
   <?php

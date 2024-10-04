@@ -47,3 +47,12 @@ $routes->group('OperatorPanel', function (RouteCollection $routes) {
   $routes->post('Barang/DeleteImage', 'OperatorPanel::barang_delete_images');
   $routes->post('Barang/TambahImage', 'OperatorPanel::barang_tambah_images');
 });
+
+$routes->group('UserPanel', function (RouteCollection $routes) {
+  $routes->get('/', function () {
+    return redirect()->to(base_url('UserPanel/Home'));
+  });
+
+  $routes->get('Home', 'UserPanel::index');
+  $routes->get('Invoice/(:num)', 'UserPanel::invoice/$1');
+});

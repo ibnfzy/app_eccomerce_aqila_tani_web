@@ -13,35 +13,23 @@
     <nav class="mt-2">
       <!--begin::Sidebar Menu-->
       <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
-        <li class="nav-item"> <a href="/OperatorPanel/" class="nav-link"> <i class="nav-icon bi bi-person-circle"></i>
-            <p>Operator</p>
+        <li class="nav-item"> <a href="/UserPanel/Home" class="nav-link"> <i class="nav-icon bi bi-cart"></i>
+            <p>Transaksi</p>
           </a> </li>
-        <li class="nav-item"> <a href="/OperatorPanel/Barang" class="nav-link"> <i class="nav-icon bi bi-box"></i>
-            <p>Barang</p>
-          </a> </li>
-        <li class="nav-item"> <a href="/OperatorPanel/JenisBarang" class="nav-link"> <i class="nav-icon bi bi-tags"></i>
-            <p>Jenis Barang</p>
-          </a> </li>
-        <li class="nav-item"> <a href="/OperatorPanel/Pelanggan" class="nav-link"> <i
-              class="nav-icon bi bi-people-fill"></i>
-            <p>Pelanggan</p>
-          </a> </li>
-        <li class="nav-item"> <a href="/OperatorPanel/Review" class="nav-link"> <i class="nav-icon bi bi-chat-dots"></i>
-            <p>Review Pelanggan</p>
-          </a> </li>
-        <li class="nav-item"> <a href="/OperatorPanel/Transaksi" class="nav-link"> <i class="nav-icon bi bi-cart"></i>
-            <p>Transaksi Aktif</p>
-          </a> </li>
-        <li class="nav-item"> <a href="/OperatorPanel/HistoryTransaksi" class="nav-link"> <i
-              class="nav-icon bi bi-clock-history"></i>
-            <p>History Transaksi</p>
-          </a> </li>
-        <li class="nav-item"> <a href="/OperatorPanel/LaporanPenjualan" class="nav-link"> <i
-              class="nav-icon bi bi-printer"></i>
-            <p>Laporan Penjualan</p>
+        <li class="nav-item"> <a href="/UserPanel/Review" class="nav-link"> <i class="nav-icon bi bi-chat"></i>
+            <p>Review</p>
           </a> </li>
         <li class="nav-item"> <a href="#" class="nav-link"> <i class="nav-icon bi bi-pencil-square"></i>
-            <p>Edit Informasi Toko</p>
+            <p>Edit Informasi Akun</p>
+          </a> </li>
+
+        <li class="nav-item"> <a href="#" class="nav-link"> <i class="nav-icon bi bi-key"></i>
+            <p>Ganti Password</p>
+          </a> </li>
+
+        <li class="nav-item"> <a href="https://wa.me/6285158109999" class="nav-link bg-success text-white"> <i
+              class="nav-icon bi bi-whatsapp"></i>
+            <p>Hubungi Kami</p>
           </a> </li>
 
         <!-- <li class="nav-item"> <a href="#!" class="nav-link"> <i class="nav-icon bi bi-envelope"></i>

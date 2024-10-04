@@ -48,8 +48,8 @@
             </li>
           </ul>
           <div class="navbar-nav ml-auto py-0">
-            <a href="" class="nav-item nav-link">Login</a>
-            <a href="" class="nav-item nav-link">Register</a>
+            <a href="/Auth/User/Login" class="nav-item nav-link">Login</a>
+            <a href="/Auth/User/Daftar" class="nav-item nav-link">Daftar</a>
           </div>
         </div>
       </div>
