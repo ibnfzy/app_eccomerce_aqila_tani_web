@@ -276,4 +276,60 @@ class OperatorPanel extends BaseController
 
         return redirect()->to(previous_url())->with('type-status', 'success')->with('message', 'Sebuah pesanan sedang dalam pengiriman');
     }
+
+    public function jenis_barang()
+    {
+        return view('operator/jenis_barang', [
+            'data' => $this->db->table('jenis_barang')->orderBy('id_jenis_barang', 'DESC')->get()->getResultArray()
+        ]);
+    }
+
+    public function jenis_barang_tambah()
+    {
+        $this->db->table('jenis_barang')->insert([
+            'nama' => $this->request->getVar('nama')
+        ]);
+
+        return redirect()->to(route_to('OperatorPanel::jenis_barang'))->with('type-status', 'success')->with('message', 'Berhasil menambahkan data');
+    }
+
+    public function jenis_barang_update()
+    {
+        $this->db->table('jenis_barang')->where('id_jenis_barang', $this->request->getVar('id_jenis_barang'))->update([
+            'nama' => $this->request->getVar('nama')
+        ]);
+
+        return redirect()->to(route_to('OperatorPanel::jenis_barang'))->with('type-status', 'success')->with('message', 'Berhasil mengubah data');
+    }
+
+    public function jenis_barang_delete($id)
+    {
+        $this->db->table('jenis_barang')->where('id_jenis_barang', $id)->delete();
+
+        return redirect()->to(route_to('OperatorPanel::jenis_barang'))->with('type-status', 'success')->with('message', 'Berhasil menghapus data');
+    }
+
+    public function pelanggan()
+    {
+        return view('operator/pelanggan', [
+            'data' => $this->db->table('users')->get()->getResultArray()
+        ]);
+    }
+
+    public function review()
+    {
+        return view('operator/review', [
+            'data' => $this->db->table('barang_detail_review')->select('barang_detail_review.*, users.nama as nama, users.username as username, barang.nama_barang as nama_barang')->join('users', 'barang_detail_review.id_user = users.id_user')->join('barang', 'barang_detail_review.id_barang = barang.id_barang')->get()->getResultArray()
+        ]);
+    }
+
+    public function history_transaksi()
+    {
+        return view('operator/transaksi', [
+            'data' => $this->db->table('transaksi')->whereIn('status_transaksi', [
+                'Selesai',
+                'Dibatalkan'
+            ])->get()->getResultArray()
+        ]);
+    }
 }

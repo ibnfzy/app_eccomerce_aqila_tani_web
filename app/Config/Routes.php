@@ -53,6 +53,17 @@ $routes->group('OperatorPanel', function (RouteCollection $routes) {
   $routes->get('Acc/(:num)', 'OperatorPanel::acc/$1');
   $routes->get('Denied/(:num)', 'OperatorPanel::denied/$1');
   $routes->get('Kirim/(:num)', 'OperatorPanel::kirim/$1');
+
+  $routes->get('JenisBarang', 'OperatorPanel::jenis_barang');
+  $routes->post('JenisBarang', 'OperatorPanel::jenis_barang_tambah');
+  $routes->post('JenisBarang/Update', 'OperatorPanel::jenis_barang_update');
+  $routes->get('JenisBarang/(:num)', 'OperatorPanel::jenis_barang_delete/$1');
+
+  $routes->get('Pelanggan', 'OperatorPanel::pelanggan');
+
+  $routes->get('Review', 'OperatorPanel::review');
+
+  $routes->get('HistoryTransaksi', 'OperatorPanel::history_transaksi');
 });
 
 $routes->group('UserPanel', function (RouteCollection $routes) {
