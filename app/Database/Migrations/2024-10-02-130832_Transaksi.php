@@ -23,6 +23,9 @@ class Transaksi extends Migration
             'total_harga' => [
                 'type' => 'INT'
             ],
+            'total_bayar' => [
+                'type' => 'INT'
+            ],
             'ongkir' => [
                 'type' => 'INT'
             ],
@@ -32,11 +35,13 @@ class Transaksi extends Migration
             ],
             'jenis_bayar' => [
                 'type' => 'ENUM',
-                'constraint' => ["COD", "Transfer"]
+                'constraint' => ["COD", "Transfer"],
+                'null' => true
             ],
             'status_transaksi' => [
                 'type' => 'ENUM',
-                'constraint' => ["Menunggu Pembayaran", "Dibatalkan", "Diproses", "Dikirim", "Selesai", "Menunggu Konfirmasi Pembayaran"]
+                'constraint' => ["Menunggu Pembayaran", "Dibatalkan", "Diproses", "Dikirim", "Selesai", "Menunggu Konfirmasi Pembayaran", "Menunggu Konfirmasi COD"],
+                'null' => true
             ],
             'created_at' => [
                 'type' => 'DATETIME',

@@ -46,66 +46,66 @@
   <link href="/web_assets/css/style.css" rel="stylesheet">
 
   <style>
-    .preloader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 9999;
-      background-color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
-    }
+  .preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  }
 
-    .preloader.slide-up {
-      transform: translateY(-100%);
-      opacity: 0;
-    }
+  .preloader.slide-up {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
 
-    .owl-carousel .owl-stage {
-      display: flex !important;
-      align-items: center !important;
-      text-align: -webkit-center;
-    }
+  .owl-carousel .owl-stage {
+    display: flex !important;
+    align-items: center !important;
+    text-align: -webkit-center;
+  }
 
-    .owl-nav {
-      position: absolute;
-      top: 50%;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      transform: translateY(-50%);
-    }
+  .owl-nav {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+  }
 
-    .owl-nav .owl-prev,
-    .owl-nav .owl-next {
-      background-color: rgba(0, 0, 0, 0.5);
-      color: white;
-      padding: 10px;
-      border-radius: 50%;
-    }
+  .owl-nav .owl-prev,
+  .owl-nav .owl-next {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 10px;
+    border-radius: 50%;
+  }
 
-    .owl-nav .owl-prev {
-      position: absolute;
-      left: 20px;
-      /* Tambahkan margin kiri */
-    }
+  .owl-nav .owl-prev {
+    position: absolute;
+    left: 20px;
+    /* Tambahkan margin kiri */
+  }
 
-    .owl-nav .owl-next {
-      position: absolute;
-      right: 40px;
-      /* Tambahkan margin kanan */
-    }
+  .owl-nav .owl-next {
+    position: absolute;
+    right: 40px;
+    /* Tambahkan margin kanan */
+  }
 
-    .owl-carousel .owl-item img {
-      width: 90%;
-      max-height: 500px;
-      object-fit: cover;
-      opacity: 0.7;
-    }
+  .owl-carousel .owl-item img {
+    width: 90%;
+    max-height: 500px;
+    object-fit: cover;
+    opacity: 0.7;
+  }
   </style>
 </head>
 
@@ -151,73 +151,100 @@
   <?= $this->renderSection('script'); ?>
 
   <script>
-    $(document).ready(function() {
-      $('.btn-plus').click(function() {
-        var input = $(this).closest('.quantity').find('.quantity-input');
-        var currentVal = parseInt(input.val());
-        var maxVal = parseInt(input.attr('data-stok'));
+  $(document).ready(function() {
+    $('.btn-plus').click(function() {
+      var input = $(this).closest('.quantity').find('.quantity-input');
+      var currentVal = parseInt(input.val());
+      var maxVal = parseInt(input.attr('data-stok'));
+      $('#btnCheckout').attr('hidden', 'hidden')
+      $('#btnUpdateCart').removeAttr('hidden')
 
-        if (!isNaN(currentVal) && currentVal < maxVal) {
-          input.val(currentVal + 1);
-        }
-      });
-
-
-      $('.btn-minus').click(function() {
-        var input = $(this).closest('.quantity').find('.quantity-input');
-        var currentVal = parseInt(input.val());
-
-        if (!isNaN(currentVal) && currentVal > 0) {
-          input.val(currentVal - 1);
-        }
-      });
+      if (!isNaN(currentVal) && currentVal < maxVal) {
+        input.val(currentVal + 1);
+      }
     });
 
-    $('.owl-carousel').owlCarousel({
-      loop: true,
-      margin: 2,
-      responsive: {
-        0: {
-          items: 1,
-        },
+
+    $('.btn-minus').click(function() {
+      var input = $(this).closest('.quantity').find('.quantity-input');
+      var currentVal = parseInt(input.val());
+      $('#btnUpdateCart').removeAttr('hidden')
+      $('#btnCheckout').attr('hidden', 'hidden')
+
+      if (!isNaN(currentVal) && currentVal > 0) {
+        input.val(currentVal - 1);
+      }
+    });
+
+    $('#formDetailBarang').on('submit', function(e) {
+      e.preventDefault();
+      let stilErr = false;
+
+      const qty = $('#qty');
+      const stok = qty.data('stok');
+
+      if (qty.val() > stok) {
+        const error = `Kuantitas melebihi stok yang ada`;
+        Command: toastr.error(error);
+        stilErr = true;
+      }
+
+      if (!stilErr) {
+        $('#formDetailBarang').unbind('submit').submit();
+      }
+    });
+
+    $('.quantity-input').on('change', function(e) {
+      $('#btnUpdateCart').removeAttr('hidden')
+      $('#btnCheckout').attr('hidden', 'hidden')
+    });
+  });
+
+  $('.owl-carousel').owlCarousel({
+    loop: true,
+    margin: 2,
+    responsive: {
+      0: {
+        items: 1,
       },
-      autoplay: true,
-      autoplayTimeout: 6000,
-      autoplayHoverPause: true,
-      dots: false,
-      nav: true,
-      navText: [
-        '<i class="fa-solid fa-circle-chevron-left fa-xl text-success"></i>', // Ikon untuk tombol "prev"
-        '<i class="fa-solid fa-circle-chevron-right fa-xl text-success"></i>' // Ikon untuk tombol "next"
-      ]
-    })
+    },
+    autoplay: true,
+    autoplayTimeout: 6000,
+    autoplayHoverPause: true,
+    dots: false,
+    nav: true,
+    navText: [
+      '<i class="fa-solid fa-circle-chevron-left fa-xl text-success"></i>', // Ikon untuk tombol "prev"
+      '<i class="fa-solid fa-circle-chevron-right fa-xl text-success"></i>' // Ikon untuk tombol "next"
+    ]
+  })
 
-    toastr.options = {
-      "closeButton": true,
-      "debug": false,
-      "newestOnTop": true,
-      "progressBar": true,
-      "positionClass": "toast-top-right",
-      "preventDuplicates": true,
-      "onclick": null,
-      "showDuration": "300",
-      "hideDuration": "1000",
-      "timeOut": "5000",
-      "extendedTimeOut": "1000",
-      "showEasing": "swing",
-      "hideEasing": "linear",
-      "showMethod": "fadeIn",
-      "hideMethod": "fadeOut"
-    }
+  toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "newestOnTop": true,
+    "progressBar": true,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": true,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+  }
 
-    window.addEventListener('load', function() {
-      const preloader = document.getElementById('preloader');
+  window.addEventListener('load', function() {
+    const preloader = document.getElementById('preloader');
 
-      setTimeout(function() {
-        preloader.classList.add('slide-up');
-        // preloader.style.display = 'none';
-      }, 1000)
-    });
+    setTimeout(function() {
+      preloader.classList.add('slide-up');
+      // preloader.style.display = 'none';
+    }, 1000)
+  });
   </script>
 
   <?php

@@ -1,6 +1,7 @@
 <?= $this->extend('user/base'); ?>
 
 <?= $this->section('content'); ?>
+<?php helper('badge'); ?>
 
 <div class="container-fluid">
   <!--begin::Row-->
@@ -20,6 +21,7 @@
             <thead>
               <tr>
                 <th>~</th>
+                <th>Status</th>
                 <th>Total Barang</th>
                 <th>Total Harga</th>
                 <th>Total Bayar</th>
@@ -31,14 +33,20 @@
               <?php foreach ($data as $key => $item) : ?>
               <tr>
                 <td><?= $key + 1; ?></td>
-                <td><?= $item['total_barang']; ?></td>
-                <td><?= $item['total_harga']; ?></td>
-                <td><?= $item['total_bayar']; ?></td>
-                <td><?= $item['created_at']; ?></td>
+                <td><?= status($item['status_transaksi']); ?></td>
+                <td><?= $item['total_kuantitas']; ?></td>
+                <td>Rp<?= number_format($item['total_harga'], 0, ',', '.'); ?></td>
+                <td>Rp<?= number_format($item['total_bayar'], 0, ',', '.'); ?></td>
+                <td><?= date('d F Y - H:i:s', strtotime($item['created_at'])); ?></td>
                 <td>
                   <div class="btn-group">
-                    <a href="/UserPanel/Transaksi/<?= $item['id_transaksi'] ?>" class="btn btn-success"><i
+                    <a href="/UserPanel/Invoice/<?= $item['id_transaksi'] ?>" class="btn btn-success"><i
                         class="fa-solid fa-eye"></i></a>
+
+                    <?php if ($item['status_transaksi'] == 'Dikirim') : ?>
+                    <a href="/UserPanel/Acc/<?= $item['id_transaksi'] ?>" class="btn btn-success"><i
+                        class="fa-solid fa-check"></i> Konfirmasi Pesanan Diterima</a>
+                    <?php endif ?>
                   </div>
                 </td>
               </tr>

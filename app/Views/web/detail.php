@@ -38,24 +38,27 @@ $pbagi = count($review);
       </div>
       <h3 class="font-weight-semi-bold mb-4">Rp <?= number_format($data['harga'], 0, ',', '.'); ?></h3>
       <h5 class="font-weight-semi-bold mb-4">Stok : <?= $data['stok']; ?></h5>
-      <div class="d-flex align-items-center mb-4 pt-2">
-        <div class="input-group quantity mr-3" style="width: 130px;">
-          <div class="input-group-btn">
-            <button class="btn btn-success btn-minus">
-              <i class="fa fa-minus"></i>
-            </button>
+      <form action="/Cart/Add" method="post" id="formDetailBarang">
+        <input type="hidden" name="id_barang" value="<?= $data['id_barang']; ?>">
+        <div class="d-flex align-items-center mb-4 pt-2">
+          <div class="input-group quantity mr-3" style="width: 130px;">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-success btn-minus">
+                <i class="fa fa-minus"></i>
+              </button>
+            </div>
+            <input type="text" class="form-control bg-light text-center quantity-input" value="1"
+              data-stok="<?= $data['stok']; ?>" name="qty" id="qty">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-success btn-plus">
+                <i class="fa fa-plus"></i>
+              </button>
+            </div>
           </div>
-          <input type="text" class="form-control bg-light text-center quantity-input" value="1"
-            data-stok="<?= $data['stok']; ?>">
-          <div class="input-group-btn">
-            <button class="btn btn-success btn-plus">
-              <i class="fa fa-plus"></i>
-            </button>
-          </div>
+          <button class="btn btn-outline-success px-3 mx-2"><i class="fa fa-shopping-cart mr-1"></i> Tambah Ke
+            Keranjang</button>
         </div>
-        <button class="btn btn-outline-success px-3 mx-2"><i class="fa fa-shopping-cart mr-1"></i> Tambah Ke
-          Keranjang</button>
-      </div>
+      </form>
     </div>
   </div>
   <div class="row px-xl-5">

@@ -27,6 +27,10 @@ class Users extends Migration
             ],
             'alamat_pengiriman' => [
                 'type' => 'TEXT'
+            ],
+            'nomor_wa' => [
+                'type' => 'VARCHAR',
+                'constraint' => 14
             ]
         ]);
 

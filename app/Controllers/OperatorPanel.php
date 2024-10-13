@@ -12,6 +12,13 @@ class OperatorPanel extends BaseController
     public function __construct()
     {
         $this->db = db_connect();
+
+        if (session('operator_logged_in')) {
+            session()->set('totalTransaksiAktif', $this->db->table('transaksi')->whereNotIn('status_transaksi', [
+                'Dibatalkan',
+                'Selesai'
+            ])->countAllResults());
+        }
     }
 
     public function operator()
@@ -219,5 +226,54 @@ class OperatorPanel extends BaseController
         ]);
 
         return redirect()->to(route_to('OperatorPanel::barang'))->with('type-status', 'success')->with('message', 'Berhasil mengupdate data');
+    }
+
+    public function transaksi_aktif()
+    {
+        return view('operator/transaksi', [
+            'data' => $this->db->table('transaksi')->whereNotIn('status_transaksi', [
+                'Selesai',
+                'Dibatalkan'
+            ])->get()->getResultArray()
+        ]);
+    }
+
+    public function invoice($id)
+    {
+        $data = $this->db->table('transaksi')->where('id_transaksi', $id)->get()->getRowArray();
+
+        return view('user/invoice', [
+            'data' => $data,
+            'dataDetail' => $this->db->table('transaksi_detail')->where('id_transaksi', $id)->get()->getResultArray(),
+            'dataToko' => $this->db->table('informasi_toko')->where('id_informasi_toko', 1)->get()->getRowArray(),
+            'dataCustomer' => $this->db->table('users')->where('id_user', $data['id_user'])->get()->getRowArray()
+        ]);
+    }
+
+    public function acc($id)
+    {
+        $this->db->table('transaksi')->where('id_transaksi', $id)->update([
+            'status_transaksi' => 'Diproses'
+        ]);
+
+        return redirect()->to(previous_url())->with('type-status', 'success')->with('message', 'Berhasil validasi data');
+    }
+
+    public function denied($id)
+    {
+        $this->db->table('transaksi')->where('id_transaksi', $id)->update([
+            'status_transaksi' => 'Dibatalkan'
+        ]);
+
+        return redirect()->to(previous_url())->with('type-status', 'success')->with('message', 'Berhasil validasi data');
+    }
+
+    public function kirim($id)
+    {
+        $this->db->table('transaksi')->where('id_transaksi', $id)->update([
+            'status_transaksi' => 'Dikirim'
+        ]);
+
+        return redirect()->to(previous_url())->with('type-status', 'success')->with('message', 'Sebuah pesanan sedang dalam pengiriman');
     }
 }

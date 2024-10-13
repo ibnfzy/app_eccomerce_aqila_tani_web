@@ -2,7 +2,7 @@
   <!--begin::Sidebar Brand-->
   <div class="sidebar-brand">
     <!--begin::Brand Link--> <a href="/OperatorPanel" class="brand-link"> <span class="fw-light text-body">Aqila Tani
-        Operator Panel</span>
+        Pelanggan Panel</span>
       <!--end::Brand Text-->
     </a>
     <!--end::Brand Link-->
@@ -14,7 +14,11 @@
       <!--begin::Sidebar Menu-->
       <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
         <li class="nav-item"> <a href="/UserPanel/Home" class="nav-link"> <i class="nav-icon bi bi-cart"></i>
-            <p>Transaksi</p>
+            <p>Transaksi <span class="nav-badge badge text-bg-success"><?= session('totalTransaksiAktifCust'); ?></span>
+            </p>
+          </a> </li>
+        <li class="nav-item"> <a href="/UserPanel/Home" class="nav-link"> <i class="nav-icon bi bi-clock-history"></i>
+            <p>Transaksi History</p>
           </a> </li>
         <li class="nav-item"> <a href="/UserPanel/Review" class="nav-link"> <i class="nav-icon bi bi-chat"></i>
             <p>Review</p>
@@ -25,6 +29,10 @@
 
         <li class="nav-item"> <a href="#" class="nav-link"> <i class="nav-icon bi bi-key"></i>
             <p>Ganti Password</p>
+          </a> </li>
+
+        <li class="nav-item"> <a href="/Katalog" class="nav-link"> <i class="nav-icon bi bi-box"></i>
+            <p>Katalog Barang</p>
           </a> </li>
 
         <li class="nav-item"> <a href="https://wa.me/6285158109999" class="nav-link bg-success text-white"> <i

@@ -14,6 +14,9 @@ class BarangDetailReview extends Migration
                 'type' => 'INT',
                 'auto_increment' => true
             ],
+            'id_transaksi' => [
+                'type' => 'INT'
+            ],
             'id_barang' => [
                 'type' => 'INT'
             ],

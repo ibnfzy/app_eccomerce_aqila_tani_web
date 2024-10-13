@@ -10,46 +10,89 @@
     integrity='sha512-6S2HWzVFxruDlZxI3sXOZZ4/eJ8AcxkQH1+JjSe/ONCEqR9L4Ysq5JdT5ipqtzU7WHalNwzwBv+iE51gNHJNqQ=='
     crossorigin='anonymous' />
   <style>
-  body {
-    background-color: #f5f5f5;
-    /* Warna abu-abu pada latar body */
-  }
+    body {
+      background-color: #f5f5f5;
+      /* Warna abu-abu pada latar body */
+    }
 
-  .invoice-container {
-    background-color: #ffffff;
-    /* Warna putih untuk container */
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    /* Efek bayangan agar terlihat seperti kertas */
-  }
+    .invoice-container {
+      background-color: #ffffff;
+      /* Warna putih untuk container */
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      /* Efek bayangan agar terlihat seperti kertas */
+    }
+
+    .rating {
+      direction: rtl;
+      font-size: 2em;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .rating input {
+      display: none;
+    }
+
+    .rating label {
+      color: #ccc;
+      cursor: pointer;
+    }
+
+    .rating input:checked~label {
+      color: #f5b301;
+    }
+
+    .rating label:hover,
+    .rating label:hover~label {
+      color: #f5b301;
+    }
   </style>
 </head>
 
+<?php
+$subtotal = 0;
+?>
+
 <body>
+
+  <?php
+  helper('badge');
+  $controller = new \App\Controllers\UserPanel;
+  ?>
 
   <div class="container my-5">
     <div class="invoice-container">
-      <h2 class="mb-4">Invoice</h2>
+      <div class="row">
+        <div class="col-md-6">
+          <h2 class="mb-4">Invoice</h2>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <div>
+            Status :
+            <?= status($data['status_transaksi']); ?>
+          </div>
+        </div>
+      </div>
 
       <!-- Shipping Information -->
       <div class="row">
         <div class="col-md-6">
           <h5>Pengiriman Dari:</h5>
           <p>
-            Nama Toko<br>
-            Alamat: Jl. Contoh No.1<br>
-            Kota: Jakarta<br>
-            Telepon: 08123456789
+            <?= $dataToko['nama_toko']; ?><br>
+            Alamat: <?= $dataToko['alamat']; ?><br>
+            Telepon: <?= $dataToko['kontak_wa']; ?>
           </p>
         </div>
         <div class="col-md-6 text-md-end">
           <h5>Pengiriman Ke:</h5>
           <p>
-            Nama Pembeli<br>
-            Alamat: Jl. Contoh No.2<br>
-            Kota: Bandung<br>
-            Telepon: 08987654321
+            <?= $dataCustomer['nama']; ?><br>
+            Alamat: <?= $dataCustomer['alamat_pengiriman']; ?><br>
+            Telepon: <?= $dataCustomer['nomor_wa']; ?>
           </p>
         </div>
       </div>
@@ -66,34 +109,40 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>Barang A</td>
-            <td>2</td>
-            <td>Rp50.000</td>
-            <td>Rp100.000</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Barang B</td>
-            <td>1</td>
-            <td>Rp75.000</td>
-            <td>Rp75.000</td>
-          </tr>
+          <?php foreach ($dataDetail as $key => $item) : ?>
+            <tr>
+              <td><?= $key + 1; ?></td>
+              <td>
+                <?= $item['nama_barang']; ?>
+
+                <?php if ($data['status_transaksi'] == 'Selesai' && session('user_logged_in')) : ?>
+
+                  <?php if (!$controller->checkIfReviewExist($data['id_transaksi'], $item['id_barang'])) : ?><button
+                      class="btn btn-primary float-end"
+                      onclick="review('<?= $data['id_transaksi'] ?>', '<?= $item['id_barang'] ?>')">Berikan Review</button>
+                  <?php endif ?>
+                <?php endif ?>
+              </td>
+              <td><?= $item['qty']; ?></td>
+              <td>Rp<?= number_format($item['harga'], 0, ',', '.') ?></td>
+              <td>Rp<?= number_format($item['harga'] * $item['qty'], 0, ',', '.') ?></td>
+            </tr>
+            <?php $subtotal += $item['harga'] * $item['qty']; ?>
+          <?php endforeach ?>
           <!-- Add more rows as needed -->
         </tbody>
         <tfoot>
           <tr>
             <th colspan="4" class="text-end">Total Harga</th>
-            <th>Rp175.000</th>
+            <th>Rp<?= number_format($subtotal, 0, ',', '.') ?></th>
           </tr>
           <tr>
             <th colspan="4" class="text-end">Ongkos Kirim</th>
-            <th>Rp25.000</th>
+            <th>Rp10.000</th>
           </tr>
           <tr>
             <th colspan="4" class="text-end">Total Bayar</th>
-            <th>Rp200.000</th>
+            <th>Rp<?= number_format($subtotal + 10000, 0, ',', '.') ?></th>
           </tr>
         </tfoot>
       </table>
@@ -102,13 +151,16 @@
       <div class="mt-4">
         <h5>Informasi Pembayaran:</h5>
         <p>Silakan transfer ke nomor rekening berikut:</p>
-        <p><strong>BANK ABC</strong><br>No. Rekening: 1234567890<br>Atas Nama: Nama Toko</p>
+        <p><?= $dataToko['rekening_toko']; ?></p>
       </div>
 
       <!-- Upload Proof of Payment Button -->
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">
-        Upload Bukti Pembayaran
-      </button>
+      <?php if ($data['status_transaksi'] == 'Menunggu Pembayaran' && session('user_logged_in')) : ?>
+        <!-- TRUE -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">
+          Upload Bukti Pembayaran
+        </button>
+      <?php endif ?>
 
       <!-- Modal for Uploading Proof of Payment -->
       <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
@@ -118,26 +170,80 @@
               <h5 class="modal-title" id="uploadModalLabel">Upload Bukti Pembayaran</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-              <form>
-                <div class="mb-3">
-                  <label for="uploadFile" class="form-label">Pilih file bukti pembayaran:</label>
-                  <input type="file" class="form-control" id="uploadFile">
+            <form action="/UserPanel/Bayar" method="post" enctype="multipart/form-data">
+              <input type="hidden" name="id_transaksi" value="<?= $data['id_transaksi'] ?>">
+              <div class="modal-body">
+                <div class="mb-3 modal-text" id="info">
+                  <h5>Informasi Pembayaran:</h5>
+                  <p>Silakan transfer ke nomor rekening berikut:</p>
+                  <p><?= $dataToko['rekening_toko']; ?></p>
                 </div>
-              </form>
+                <div class="mb-3">
+                  <label for="jenis_bayar">Jenis Pembayaran</label>
+                  <select name="jenis_bayar" id="jenis_bayar" class="form-select">
+                    <option value="Transfer">Transfer</option>
+                    <option value="COD">COD</option>
+                  </select>
+                </div>
+                <div class="mb-3" id="bukti_bayar_group">
+                  <label for="uploadFile" class="form-label">Pilih file bukti pembayaran:</label>
+                  <input type="file" class="form-control" id="bukti_bayar" name="bukti_bayar"
+                    accept="image/jpg, image/png, image/jpeg" required>
+                  <small class="text-muted">Total yang harus dibayar : <span
+                      class="badge text-bg-primary">Rp<?= number_format($subtotal + 10000, 0, ',', '.') ?></span></small>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Upload</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="reviewModalLabel">Review Barang</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Upload</button>
-            </div>
+            <form action="/UserPanel/Review" method="post">
+              <input type="hidden" name="id_transaksi" id="id_transaksi">
+              <input type="hidden" name="id_barang" id="id_barang">
+              <div class="modal-body">
+                <div class="mb-3">
+                  <div class="rating">
+                    <input type="radio" name="rating" id="star5" value="5"><label for="star5">&#9733;</label>
+                    <input type="radio" name="rating" id="star4" value="4"><label for="star4">&#9733;</label>
+                    <input type="radio" name="rating" id="star3" value="3"><label for="star3">&#9733;</label>
+                    <input type="radio" name="rating" id="star2" value="2"><label for="star2">&#9733;</label>
+                    <input type="radio" name="rating" id="star1" value="1"><label for="star1">&#9733;</label>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="review" class="form-label">Review</label>
+                  <input type="text" id="review" name="review" class="form-control">
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Simpan</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
 
     </div>
 
+    <div class="container py-2 text-center align-bottom">
+      <p class="text-muted">Checkout pada tanggal <?= $data['created_at']; ?> (System)</p>
+    </div>
+
     <p class="text-center mt-4">Terima kasih telah membeli di toko kami!<br>
-      Kembali ke <a href="/UserPanel">Panel</a></p>
+      Kembali ke <a href="<?= session('user_logged_in') ? '/UserPanel' : '/OperatorPanel' ?>">Panel</a></p>
   </div>
 
   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js'
@@ -149,23 +255,41 @@
     crossorigin='anonymous'></script>
 
   <script>
-  toastr.options = {
-    "closeButton": true,
-    "debug": false,
-    "newestOnTop": true,
-    "progressBar": true,
-    "positionClass": "toast-top-right",
-    "preventDuplicates": true,
-    "onclick": null,
-    "showDuration": "300",
-    "hideDuration": "1000",
-    "timeOut": "5000",
-    "extendedTimeOut": "1000",
-    "showEasing": "swing",
-    "hideEasing": "linear",
-    "showMethod": "fadeIn",
-    "hideMethod": "fadeOut"
-  }
+    $('#jenis_bayar').on('change', function() {
+      $('#bukti_bayar_group').removeAttr('hidden');
+      $('#info').removeAttr('hidden');
+      $('#bukti_bayar').attr('required', 'required');
+
+      if ($('#jenis_bayar').val() == 'COD') {
+        $('#bukti_bayar_group').attr('hidden', 'hidden');
+        $('#info').attr('hidden', 'hidden');
+        $('#bukti_bayar').removeAttr('required');
+      }
+    });
+
+    const review = (id_transaksi, id_barang) => {
+      $('#id_transaksi').val(id_transaksi);
+      $('#id_barang').val(id_barang);
+      $('#reviewModal').modal('show')
+    };
+
+    toastr.options = {
+      "closeButton": true,
+      "debug": false,
+      "newestOnTop": true,
+      "progressBar": true,
+      "positionClass": "toast-top-right",
+      "preventDuplicates": true,
+      "onclick": null,
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "5000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    }
   </script>
 
   <?php

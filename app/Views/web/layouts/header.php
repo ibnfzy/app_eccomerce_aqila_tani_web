@@ -19,7 +19,7 @@
       <div class="col-lg-3 col-6 text-right">
         <a href="/Cart" class="btn btn-outline-success">
           <i class="fa-solid fa-cart-shopping"></i>
-          0
+          <?= session('cartTotalItems'); ?>
         </a>
       </div>
     </div>
@@ -40,6 +40,18 @@
             <li class="nav-item">
               <a class="nav-link" href="/Katalog">Katalog Barang</a>
             </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Jenis Barang
+              </a>
+              <ul class="dropdown-menu">
+                <?php foreach (session('data_jenis') as $item) : ?>
+                <li><a class="dropdown-item"
+                    href="/KatalogJenis/<?= $item['id_jenis_barang'] ?>"><?= $item['nama']; ?></a></li>
+                <?php endforeach ?>
+              </ul>
+            </li>
             <li class="nav-item">
               <a class="nav-link" href="/Tentang">Tentang Toko</a>
             </li>
@@ -48,8 +60,12 @@
             </li>
           </ul>
           <div class="navbar-nav ml-auto py-0">
+            <?php if (!session('user_logged_in')) : ?>
             <a href="/Auth/User/Login" class="nav-item nav-link">Login</a>
             <a href="/Auth/User/Daftar" class="nav-item nav-link">Daftar</a>
+            <?php else : ?>
+            <a href="/UserPanel" class="nav-item nav-link">Pelanggan Panel</a>
+            <?php endif ?>
           </div>
         </div>
       </div>

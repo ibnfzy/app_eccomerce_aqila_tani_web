@@ -30,7 +30,8 @@
             <p>Review Pelanggan</p>
           </a> </li>
         <li class="nav-item"> <a href="/OperatorPanel/Transaksi" class="nav-link"> <i class="nav-icon bi bi-cart"></i>
-            <p>Transaksi Aktif</p>
+            <p>Transaksi Aktif <span
+                class="nav-badge badge text-bg-success"><?= session('totalTransaksiAktif') ;?></span></p>
           </a> </li>
         <li class="nav-item"> <a href="/OperatorPanel/HistoryTransaksi" class="nav-link"> <i
               class="nav-icon bi bi-clock-history"></i>

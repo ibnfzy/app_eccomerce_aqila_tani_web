@@ -7,6 +7,7 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 $routes->get('Katalog', 'Home::katalog');
+$routes->get('KatalogJenis/(:num)', 'Home::katalog_jenis/$1');
 $routes->get('Katalog/(:num)', 'Home::detail/$1');
 $routes->get('Tentang', 'Home::tentang');
 
@@ -46,6 +47,12 @@ $routes->group('OperatorPanel', function (RouteCollection $routes) {
   $routes->post('Barang/GetImage', 'OperatorPanel::barang_get_images');
   $routes->post('Barang/DeleteImage', 'OperatorPanel::barang_delete_images');
   $routes->post('Barang/TambahImage', 'OperatorPanel::barang_tambah_images');
+
+  $routes->get('Transaksi', 'OperatorPanel::transaksi_aktif');
+  $routes->get('Invoice/(:num)', 'OperatorPanel::invoice/$1');
+  $routes->get('Acc/(:num)', 'OperatorPanel::acc/$1');
+  $routes->get('Denied/(:num)', 'OperatorPanel::denied/$1');
+  $routes->get('Kirim/(:num)', 'OperatorPanel::kirim/$1');
 });
 
 $routes->group('UserPanel', function (RouteCollection $routes) {
@@ -54,5 +61,8 @@ $routes->group('UserPanel', function (RouteCollection $routes) {
   });
 
   $routes->get('Home', 'UserPanel::index');
+  $routes->get('Checkout', 'UserPanel::checkout');
   $routes->get('Invoice/(:num)', 'UserPanel::invoice/$1');
+  $routes->get('Acc/(:num)', 'UserPanel::acc/$1');
+  $routes->post('Bayar', 'UserPanel::upload_pembayaran');
 });

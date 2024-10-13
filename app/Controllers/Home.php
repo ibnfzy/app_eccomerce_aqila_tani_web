@@ -11,6 +11,9 @@ class Home extends BaseController
     {
         $this->db = \Config\Database::connect();
         $this->cart = \Config\Services::cart();
+
+        session()->set('data_jenis', $this->db->table('jenis_barang')->get()->getResultArray());
+        session()->set('cartTotalItems', $this->cart->totalItems());
     }
 
     public function index(): string
@@ -22,6 +25,15 @@ class Home extends BaseController
     {
         return view('web/katalog', [
             'data' => $this->db->table('barang')->orderBy('id_barang', 'DESC')->get()->getResultArray()
+        ]);
+    }
+
+    public function katalog_jenis($id)
+    {
+        $getKategori = $this->db->table('jenis_barang')->where('id_jenis_barang', $id)->get()->getRowArray();
+
+        return view('web/katalog', [
+            'data' => $this->db->table('barang')->where('jenis', $getKategori['nama'])->orderBy('id_barang', 'DESC')->get()->getResultArray()
         ]);
     }
 
@@ -40,32 +52,69 @@ class Home extends BaseController
 
     public function cart()
     {
+        $data = $this->cart->contents();
+
+        foreach ($data as $key => $value) {
+            $getBarang = $this->db->table('barang')->where('id_barang', $value['id'])->get()->getRowArray();
+
+            if ($value['qty'] > $getBarang['stok']) {
+                $this->cart->update([
+                    'rowid' => $value['rowid'],
+                    'qty' => $getBarang['stok'],
+                ]);
+            }
+
+            $this->cart->update([
+                'rowid' => $value['rowid'],
+                'stok' => $getBarang['stok']
+            ]);
+        }
+
         return view('web/cart', [
-            'data' => $this->cart->contents()
+            'data' => $data
         ]);
     }
 
     public function add_barang()
     {
-        sleep(2);
+        sleep(1);
 
         $get = $this->db->table('barang')->where('id_barang', $this->request->getPost('id_barang'))->get()->getRowArray();
-        $getImg = $this->db->table('barang_detail_gambar')->where('id_barang', $this->request->getPost('id_barang'))->orderBy('id_detail_gambar', 'RANDOM')->get()->getRowArray();
+        $stillErr = false;
+        $err = false;
+        $ImgArr = unserialize($get['images']);
 
         if ($this->request->getPost('qty') > $get['stok']) {
             return redirect()->to(previous_url())->with('type-status', 'error')
                 ->with('message', 'Stok Tidak Mencukupi, silahkan hubungi toko');
         }
 
-        $this->cart->insert([
-            'id' => $get['id_barang'],
-            'qty' => $this->request->getPost('qty'),
-            'price' => $get['harga'],
-            'name' => $get['nama_barang'],
-            'gambar' => $getImg['file'],
-            'stok' => $get['stok'],
-            'id_customer' => session()->get('id_customer')
-        ]);
+        foreach ($this->cart->contents() as $key => $value) {
+            if ($value['id'] == $get['id_barang']) {
+
+                if (($value['qty'] + $this->request->getPost('qty')) > $get['stok']) {
+
+                    $stillErr = true;
+
+                    $this->cart->update([
+                        'rowid' => $value['rowid'],
+                        'qty' => $get['stok']
+                    ]);
+                }
+            }
+        }
+
+        if ($stillErr == false) {
+            $this->cart->insert([
+                'id' => $get['id_barang'],
+                'qty' => $this->request->getPost('qty'),
+                'price' => $get['harga'],
+                'name' => $get['nama_barang'],
+                'gambar' => $ImgArr[array_rand($ImgArr)],
+                'stok' => $get['stok'],
+                'id_customer' => session()->get('id_customer')
+            ]);
+        }
 
         return redirect()->to(base_url('Cart'));
     }
