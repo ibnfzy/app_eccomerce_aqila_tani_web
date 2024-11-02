@@ -18,7 +18,9 @@ class Home extends BaseController
 
     public function index(): string
     {
-        return view('web/home');
+        return view('web/home', [
+            'slider' => $this->db->table('slider')->get()->getResultArray()
+        ]);
     }
 
     public function katalog()

@@ -73,6 +73,7 @@ class UserAuth extends BaseController
             'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
             'nama' => $this->request->getPost('nama'),
             'alamat_pengiriman' => $this->request->getPost('alamat_pengiriman'),
+            'nomor_wa' => $this->request->getPost('nomor_wa')
         ]);
 
         return redirect()->to(route_to('UserAuth::index'))->with('type-status', 'success')->with('message', 'Akun berhasil dibuat');

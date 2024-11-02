@@ -170,12 +170,40 @@ class UserPanel extends BaseController
 
     public function checkIfReviewExist($id_transaksi, $id_barang): bool
     {
-        $check = $this->db->table('barang_detaiL_review')->where('id_transaksi', $id_transaksi)->where('id_barang', $id_barang)->get()->getRowArray();
+        $check = $this->db->table('barang_detail_review')->where('id_transaksi', $id_transaksi)->where('id_barang', $id_barang)->get()->getRowArray();
 
         if ($check != null) {
             return true;
         }
 
         return false;
+    }
+
+    public function review()
+    {
+        return view('user/review', [
+            'data' => $this->db->table('barang_detail_review')->select('barang_detail_review.*, barang.nama_barang as nama_barang')->join('barang', 'barang.id_barang=barang_detail_review.id_barang')->where('barang_detail_review.id_user', session('data_user')['id_user'])->get()->getResultArray()
+        ]);
+    }
+
+    public function informasi()
+    {
+        $this->db->table('users')->where('id_user', session('data_user')['id_user'])->update([
+            'username' => $this->request->getVar('username'),
+            'nama' => $this->request->getVar('nama'),
+            'alamat_pengiriman' => $this->request->getVar('alamat_pengiriman'),
+            'nomor_wa' => $this->request->getVar('nomor_wa')
+        ]);
+
+        return redirect()->to(previous_url())->with('type-status', 'success')->with('message', 'Berhasil mengubah data');
+    }
+
+    public function password()
+    {
+        $this->db->table('users')->where('id_user', session('data_user')['id_user'])->update([
+            'password' => password_hash($this->request->getVar('password'), PASSWORD_BCRYPT)
+        ]);
+
+        return redirect()->to(previous_url())->with('type-status', 'success')->with('message', 'Berhasil mengubah data');
     }
 }

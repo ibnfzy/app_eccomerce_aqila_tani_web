@@ -19,6 +19,28 @@ class OperatorPanel extends BaseController
                 'Selesai'
             ])->countAllResults());
         }
+
+        session()->set('data_toko', $this->db->table('informasi_toko')->get()->getRowArray());
+    }
+
+    public function laporan()
+    {
+        return view('operator/laporan_keuangan', [
+            'date' => $this->request->getVar('tanggal_laporan'),
+            'data' => $this->db->table('transaksi')->select('transaksi.*, users.nama as nama_user')->join('users', 'users.id_user=transaksi.id_user')->where('YEAR(transaksi.created_at)', $this->request->getVar('tanggal_laporan'))->get()->getResultArray()
+        ]);
+    }
+
+    public function informasi()
+    {
+        $this->db->table('informasi_toko')->where('id_informasi_toko', 1)->update([
+            'tentang' => $this->request->getVar('tentang'),
+            'kontak_wa' => $this->request->getVar('kontak_wa'),
+            'alamat' => $this->request->getVar('alamat'),
+            'rekening_toko' => $this->request->getVar('rekening_toko')
+        ]);
+
+        return redirect()->to(previous_url())->with('type-status', 'success')->with('message', 'Berhasil mengubah data');
     }
 
     public function operator()
@@ -331,5 +353,49 @@ class OperatorPanel extends BaseController
                 'Dibatalkan'
             ])->get()->getResultArray()
         ]);
+    }
+
+    public function slider()
+    {
+        return view('operator/slider', [
+            'data' => $this->db->table('slider')->get()->getResultArray()
+        ]);
+    }
+
+    public function slider_tambah()
+    {
+        $rules = [
+            'file' => [
+                'rules' => 'uploaded[file]|max_size[file,3048]|is_image[file]|mime_in[file,image/jpg,image/jpeg,image/png,image/gif]',
+                'errors' => [
+                    'uploaded' => 'Gambar wajib diisi',
+                    'max_size' => 'Ukuran gambar terlalu besar',
+                    'is_image' => 'Yang anda pilih bukan gambar',
+                    'mime_in' => 'Yang anda pilih bukan gambar',
+                ]
+            ]
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->to(previous_url())->with('type-status', 'error')->with('dataMessage', $this->validator->getErrors());
+        }
+
+        $file = $this->request->getFile('file');
+        $fileName = $file->getRandomName();
+
+        $this->db->table('slider')->insert([
+            'file' => $fileName
+        ]);
+
+        $file->move('uploads', $fileName);
+
+        return redirect()->to(route_to('OperatorPanel::slider'))->with('type-status', 'success')->with('message', 'Berhasil menambahkan data');
+    }
+
+    public function slider_hapus($id)
+    {
+        $this->db->table('slider')->where('id_slider', $id)->delete();
+
+        return redirect()->to(route_to('OperatorPanel::slider'))->with('type-status', 'success')->with('message', 'Berhasil menghapus data');
     }
 }

@@ -4,12 +4,13 @@
 
 <div class="m-4">
   <div class="owl-carousel owl-theme container-fluid">
+
+    <?php foreach ($slider as $item) : ?>
     <div class="item">
-      <img src="/web_assets/img/carousel-1.jpg" alt="" srcset="">
+      <img src="/uploads/<?= $item['file'] ?>" alt="" srcset="">
     </div>
-    <div class="item">
-      <img src="/web_assets/img/carousel-2.jpg" alt="" srcset="">
-    </div>
+    <?php endforeach ?>
+
   </div>
 </div>
 

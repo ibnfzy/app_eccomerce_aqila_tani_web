@@ -29,19 +29,24 @@
         <li class="nav-item"> <a href="/OperatorPanel/Review" class="nav-link"> <i class="nav-icon bi bi-chat-dots"></i>
             <p>Review Pelanggan</p>
           </a> </li>
+        <li class="nav-item"> <a href="/OperatorPanel/Slider" class="nav-link">
+            <i class="nav-icon bi bi-card-image"></i>
+            <p>Slider</p>
+          </a> </li>
         <li class="nav-item"> <a href="/OperatorPanel/Transaksi" class="nav-link"> <i class="nav-icon bi bi-cart"></i>
             <p>Transaksi Aktif <span
-                class="nav-badge badge text-bg-success"><?= session('totalTransaksiAktif') ;?></span></p>
+                class="nav-badge badge text-bg-success"><?= session('totalTransaksiAktif'); ?></span></p>
           </a> </li>
         <li class="nav-item"> <a href="/OperatorPanel/HistoryTransaksi" class="nav-link"> <i
               class="nav-icon bi bi-clock-history"></i>
             <p>History Transaksi</p>
           </a> </li>
-        <li class="nav-item"> <a href="/OperatorPanel/LaporanPenjualan" class="nav-link"> <i
+        <li class="nav-item"> <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#buatLaporan"> <i
               class="nav-icon bi bi-printer"></i>
             <p>Laporan Penjualan</p>
           </a> </li>
-        <li class="nav-item"> <a href="#" class="nav-link"> <i class="nav-icon bi bi-pencil-square"></i>
+        <li class="nav-item"> <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#informasi"> <i
+              class="nav-icon bi bi-pencil-square"></i>
             <p>Edit Informasi Toko</p>
           </a> </li>
 

@@ -34,6 +34,9 @@ $routes->group('OperatorPanel', function (RouteCollection $routes) {
     return redirect()->to(base_url('OperatorPanel/Operator'));
   });
 
+  $routes->post('Informasi', 'OperatorPanel::informasi');
+  $routes->get('LaporanKeuangan', 'OperatorPanel::laporan');
+
   $routes->get('Operator', 'OperatorPanel::operator');
   $routes->get('Operator/(:num)', 'OperatorPanel::operator_hapus/$1');
   $routes->post('Operator', 'OperatorPanel::operator_simpan');
@@ -64,6 +67,10 @@ $routes->group('OperatorPanel', function (RouteCollection $routes) {
   $routes->get('Review', 'OperatorPanel::review');
 
   $routes->get('HistoryTransaksi', 'OperatorPanel::history_transaksi');
+
+  $routes->get('Slider', 'OperatorPanel::slider');
+  $routes->post('Slider', 'OperatorPanel::slider_tambah');
+  $routes->get('Slider/(:num)', 'OperatorPanel::slider_delete/$1');
 });
 
 $routes->group('UserPanel', function (RouteCollection $routes) {
@@ -76,4 +83,8 @@ $routes->group('UserPanel', function (RouteCollection $routes) {
   $routes->get('Invoice/(:num)', 'UserPanel::invoice/$1');
   $routes->get('Acc/(:num)', 'UserPanel::acc/$1');
   $routes->post('Bayar', 'UserPanel::upload_pembayaran');
+  $routes->get('Review', 'UserPanel::review');
+  $routes->post('Review', 'UserPanel::review_add');
+  $routes->post('Informasi', 'UserPanel::informasi');
+  $routes->post('Password', 'UserPanel::password');
 });

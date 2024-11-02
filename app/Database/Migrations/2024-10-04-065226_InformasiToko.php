@@ -22,7 +22,7 @@ class InformasiToko extends Migration
             ],
             'kontak_wa' => [
                 'type' => 'VARCHAR',
-                'constraint' => 13
+                'constraint' => 15
             ],
             'alamat' => [
                 'type' => 'VARCHAR',

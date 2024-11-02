@@ -23,11 +23,13 @@
         <li class="nav-item"> <a href="/UserPanel/Review" class="nav-link"> <i class="nav-icon bi bi-chat"></i>
             <p>Review</p>
           </a> </li>
-        <li class="nav-item"> <a href="#" class="nav-link"> <i class="nav-icon bi bi-pencil-square"></i>
+        <li class="nav-item"> <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#informasi"> <i
+              class="nav-icon bi bi-pencil-square"></i>
             <p>Edit Informasi Akun</p>
           </a> </li>
 
-        <li class="nav-item"> <a href="#" class="nav-link"> <i class="nav-icon bi bi-key"></i>
+        <li class="nav-item"> <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#passwordModal"> <i
+              class="nav-icon bi bi-key"></i>
             <p>Ganti Password</p>
           </a> </li>
 
