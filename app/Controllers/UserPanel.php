@@ -51,6 +51,10 @@ class UserPanel extends BaseController
         $hargaArr = [];
         $i = 0;
 
+        if ($this->cart->totalItems() == 0) {
+            return redirect()->to(route_to('Home::cart'))->with('type-status', 'error')->with('message', 'Keranjang Kosong');
+        }
+
         $dataCustomer = $this->db->table('users')->where('id_user', session('data_user')['id_user'])->get()->getRowArray();
 
         foreach ($this->cart->contents() as $key => $value) {

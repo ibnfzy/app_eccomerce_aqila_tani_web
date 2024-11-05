@@ -63,7 +63,8 @@
         <div class="modal-body">
           <div class="mb-4">
             <label for="file" class="form-label">File</label>
-            <input type="file" class="form-control" id="file" name="file" required>
+            <input type="file" class="form-control" id="file" name="file" accept="image/jpg,image/jpeg,image/png"
+              required>
             <small class="form-text"></small>
           </div>
         </div>

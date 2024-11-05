@@ -19,7 +19,8 @@ class Home extends BaseController
     public function index(): string
     {
         return view('web/home', [
-            'slider' => $this->db->table('slider')->get()->getResultArray()
+            'slider' => $this->db->table('slider')->get()->getResultArray(),
+            'rekom' => $this->db->table('transaksi_detail')->select('transaksi_detail.id_barang, SUM(transaksi_detail.qty) AS total_qty, barang.nama_barang, barang.harga, barang.deskripsi, barang.images')->join('barang', 'transaksi_detail.id_barang = barang.id_barang')->groupBy('transaksi_detail.id_barang')->orderBy('total_qty', 'DESC')->get(4)->getResultArray()
         ]);
     }
 
@@ -224,6 +225,6 @@ class Home extends BaseController
 
     public function review($id)
     {
-        return $this->db->table('barang_detail_review')->where('id_barang', $id)->get()->getResultArray();
+        return $this->db->table('barang_detail_review')->join('users', 'users.id_user=barang_detail_review.id_user')->where('id_barang', $id)->get()->getResultArray();
     }
 }

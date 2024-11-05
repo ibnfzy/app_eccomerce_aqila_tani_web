@@ -85,7 +85,7 @@ $pbagi = count($review);
                   <h6><?= $item['nama']; ?><small> - <i><?= $item['created_at']; ?></i></small></h6>
                   <div class="text-primary mb-2">
                     <?php for ($i = 0; $i < $item['rating']; $i++) : ?>
-                    <i class="fas fa-star text-success"></i>
+                    <i class="fas fa-star text-warning"></i>
                     <?php endfor; ?>
                   </div>
                   <p><?= $item['review']; ?></p>

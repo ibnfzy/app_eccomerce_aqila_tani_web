@@ -70,7 +70,7 @@ $routes->group('OperatorPanel', function (RouteCollection $routes) {
 
   $routes->get('Slider', 'OperatorPanel::slider');
   $routes->post('Slider', 'OperatorPanel::slider_tambah');
-  $routes->get('Slider/(:num)', 'OperatorPanel::slider_delete/$1');
+  $routes->get('Slider/(:num)', 'OperatorPanel::slider_hapus/$1');
 });
 
 $routes->group('UserPanel', function (RouteCollection $routes) {

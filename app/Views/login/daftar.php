@@ -128,7 +128,7 @@
       stilErr = true;
     }
 
-    const no_wa = $('#kontak_wa').val();
+    const no_wa = $('#nomor_wa').val();
 
     if (!/^62/.test(no_wa)) {
       Command: toastr.error('Nomor Whatsapp harus diawali dengan 62');
